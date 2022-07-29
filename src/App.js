@@ -1,6 +1,8 @@
 import './App.css';
 import Hello from './class-component';
-import {Employeedetails} from './Employee'
+import {Employeedetails} from './Employee';
+import {useState , useEffect} from 'react';
+import {teams} from './data';
 // nested components 
 function App() {
   return (
@@ -14,7 +16,10 @@ function App() {
     <UserDetails/>
     <Studentdetails/> 
     <Employeedetails/> 
-    <EventBasics/>
+    <EventBasics/> 
+    <ReactStates/>
+    <Teams/> 
+    <Useeffect/>
     </div>
   );
 } 
@@ -151,7 +156,7 @@ function Studentdetails(){
  return(<>
      <h1>student details </h1> 
      {studentData.map((sdt)=>{
-     return <Student id={sdt.id} name={sdt.name}/>
+     return <Student key={sdt.id} id={sdt.id} name={sdt.name}/>
      })};
 
     
@@ -177,8 +182,57 @@ function EventBasics(){
 <button type="button" onClick={clickHandler}>Click Me</button>
   </>);
 }
+ //let titleText = "React State";
 
 
+ 
+function ReactStates(){ 
+  let  [titleText, setText] = useState("React State") ; 
+  //let titleText = "React State";
+  function clickHandle(){
+    if(titleText === "React State" ){
+      setText("useState Hook");
+    }else{
+      setText("React State");
+    }
+    
+  }
+  return(<>
+    <h2>React state / UseState Hook </h2>
+    <h3>{titleText} </h3> 
+    <button type="button" onClick={clickHandle}>Click Here </button>
+  </>)
+}
 
+function Teams(){
+  const [teamMembers,setTeamMember] = useState(teams);
+  function emptyMember(){
+    setTeamMember([]);
+  }
+  return(<>
+   <h3>State With arrays </h3>
+    {teamMembers.map((member)=>{
+       return <h3 key={member.id}> {member.Name} </h3>
+    })}
+    <button type="submit" onClick={emptyMember}>Clear Members </button>
+  </>)
+}  
+ 
+
+// useEffect 
+function Useeffect(){
+  const [count, setCount] = useState(0) ;
+  useEffect(()=>{
+    console.log("click");
+  })
+  function counter(){
+    setCount(count+1);
+  }
+  return(<>
+     <h3> useEffect Hook </h3> 
+    <h2>{count}</h2> 
+  <button type="submit" onClick={counter}> Count++ </button>
+  </>)
+}
 
 export default App;
