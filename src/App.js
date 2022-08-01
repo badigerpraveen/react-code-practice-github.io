@@ -3,6 +3,10 @@ import Hello from './class-component';
 import {Employeedetails} from './Employee';
 import {useState , useEffect} from 'react';
 import {teams} from './data';
+import ConditionalRendering  from './conditional';
+import {TernaryOpt} from './conditional';
+import {Shortcircuit} from './conditional';
+import Form from './form';
 // nested components 
 function App() {
   return (
@@ -19,7 +23,12 @@ function App() {
     <EventBasics/> 
     <ReactStates/>
     <Teams/> 
-    <Useeffect/>
+    <Useeffect/> 
+    <FetcingData/> 
+    <ConditionalRendering/> 
+    <TernaryOpt/> 
+    <Shortcircuit/> 
+    <Form/>
     </div>
   );
 } 
@@ -224,7 +233,13 @@ function Useeffect(){
   const [count, setCount] = useState(0) ;
   useEffect(()=>{
     console.log("click");
-  })
+  },[]);
+  useEffect(()=>{
+    if(count > 0){
+      console.log("UseEffect");
+    }
+    
+  },[count]);
   function counter(){
     setCount(count+1);
   }
@@ -234,5 +249,33 @@ function Useeffect(){
   <button type="submit" onClick={counter}> Count++ </button>
   </>)
 }
+
+// fetching data using useeEffect 
+
+const url = "https://api.github.com/users" ;
+
+ function FetcingData(){
+  const [guser , setGuser] = useState([]);
+  
+  useEffect(()=>{ 
+      async function getdata(){
+      const responce = await fetch(url);
+      const  users = await responce.json();
+      setGuser(users);
+      console.log(users);
+      } 
+    getdata()
+  },[])
+ 
+  return(<>
+  <h2> Fetching Json data using useeEffect , async await and map function   </h2>
+   {guser.map((data)=>{
+     return <li> Login name : {data.login} </li>;  ;
+          
+   })} 
+  </>);
+}
+
+/// conditional rendering 
 
 export default App;
